@@ -22,11 +22,17 @@ clean:
 	rm -fr $(BUILD_DIR)
 
 .NOTPARALLEL:
-deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-lib-jitsi-meet deploy-libflac deploy-css deploy-local
+deploy: deploy-init deploy-always
 
 deploy-init:
 	rm -fr $(DEPLOY_DIR)
 	mkdir -p $(DEPLOY_DIR)
+
+deploy-always:
+	cp \
+		$(BUILD_DIR)/alwaysontop.min.js \
+		$(BUILD_DIR)/alwaysontop.min.map \
+		$(DEPLOY_DIR)
 
 deploy-appbundle:
 	cp \
@@ -44,13 +50,6 @@ deploy-appbundle:
 		$(BUILD_DIR)/dial_in_info_bundle.min.map \
 		$(BUILD_DIR)/alwaysontop.min.js \
 		$(BUILD_DIR)/alwaysontop.min.map \
-		$(OUTPUT_DIR)/analytics-ga.js \
-		$(BUILD_DIR)/analytics-ga.min.js \
-		$(BUILD_DIR)/analytics-ga.min.map \
-		$(BUILD_DIR)/video-blur-effect.min.js \
-		$(BUILD_DIR)/video-blur-effect.min.map \
-		$(BUILD_DIR)/rnnoise-processor.min.js \
-		$(BUILD_DIR)/rnnoise-processor.min.map \
 		$(DEPLOY_DIR)
 
 deploy-lib-jitsi-meet:
