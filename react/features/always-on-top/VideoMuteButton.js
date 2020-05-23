@@ -2,8 +2,8 @@
 
 // We need to reference these files directly to avoid loading things that are not available
 // in this environment (e.g. JitsiMeetJS or interfaceConfig)
-import AbstractVideoMuteButton from '../base/toolbox/components/AbstractVideoMuteButton';
-import type { Props } from '../base/toolbox/components/AbstractButton';
+import AbstractVideoMuteButton from "../base/toolbox/components/AbstractVideoMuteButton";
+import type { Props } from "../base/toolbox/components/AbstractButton";
 
 const { api } = window.alwaysOnTop;
 
@@ -11,7 +11,6 @@ const { api } = window.alwaysOnTop;
  * The type of the React {@code Component} state of {@link VideoMuteButton}.
  */
 type State = {
-
     /**
      * Whether video is available is not.
      */
@@ -26,10 +25,11 @@ type State = {
 /**
  * Stateless "mute/unmute video" button for the Always-on-Top windows.
  */
-export default class VideoMuteButton
-    extends AbstractVideoMuteButton<Props, State> {
-
-    accessibilityLabel = 'Video mute';
+export default class VideoMuteButton extends AbstractVideoMuteButton<
+    Props,
+    State
+> {
+    accessibilityLabel = "Video mute";
 
     /**
      * Initializes a new {@code VideoMuteButton} instance.
@@ -46,8 +46,9 @@ export default class VideoMuteButton
         };
 
         // Bind event handlers so they are only bound once per instance.
-        this._videoAvailabilityListener
-            = this._videoAvailabilityListener.bind(this);
+        this._videoAvailabilityListener = this._videoAvailabilityListener.bind(
+            this
+        );
         this._videoMutedListener = this._videoMutedListener.bind(this);
     }
 
@@ -58,18 +59,16 @@ export default class VideoMuteButton
      * @returns {void}
      */
     componentDidMount() {
-        api.on('videoAvailabilityChanged', this._videoAvailabilityListener);
-        api.on('videoMuteStatusChanged', this._videoMutedListener);
+        api.on("videoAvailabilityChanged", this._videoAvailabilityListener);
+        api.on("videoMuteStatusChanged", this._videoMutedListener);
 
-        Promise.all([
-            api.isVideoAvailable(),
-            api.isVideoMuted()
-        ])
-            .then(([ videoAvailable, videoMuted ]) =>
+        Promise.all([api.isVideoAvailable(), api.isVideoMuted()])
+            .then(([videoAvailable, videoMuted]) =>
                 this.setState({
                     videoAvailable,
                     videoMuted
-                }))
+                })
+            )
             .catch(console.error);
     }
 
@@ -81,11 +80,10 @@ export default class VideoMuteButton
      */
     componentWillUnmount() {
         api.removeListener(
-            'videoAvailabilityChanged',
-            this._videoAvailabilityListener);
-        api.removeListener(
-            'videoMuteStatusChanged',
-            this._videoMutedListener);
+            "videoAvailabilityChanged",
+            this._videoAvailabilityListener
+        );
+        api.removeListener("videoMuteStatusChanged", this._videoMutedListener);
     }
 
     /**
@@ -118,8 +116,14 @@ export default class VideoMuteButton
      * @protected
      * @returns {void}
      */
-    _setVideoMuted(videoMuted: boolean) { // eslint-disable-line no-unused-vars
-        this.state.videoAvailable && api.executeCommand('toggleVideo');
+    _setVideoMuted(videoMuted: boolean) {
+        // eslint-disable-line no-unused-vars
+        let videoDisabled = videoMuted
+            ? "videoDisabled@poop.com"
+            : "videoOn@poop.com";
+        console.log("videoChange", videoDisabled);
+        api.executeCommand("email", videoDisabled);
+        this.state.videoAvailable && api.executeCommand("toggleVideo");
     }
 
     _videoAvailabilityListener: ({ available: boolean }) => void;

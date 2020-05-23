@@ -1,6 +1,7 @@
 BUILD_DIR = build
 CLEANCSS = ./node_modules/.bin/cleancss
 DEPLOY_DIR = libs
+DEPLOY_DIR_GIT = ../yeetings/jitsi-meet-electron-utils/alwaysontop/libs
 LIBJITSIMEET_DIR = node_modules/lib-jitsi-meet/
 LIBFLAC_DIR = node_modules/libflacjs/dist/min/
 RNNOISE_WASM_DIR = node_modules/rnnoise-wasm/dist/
@@ -22,7 +23,7 @@ clean:
 	rm -fr $(BUILD_DIR)
 
 .NOTPARALLEL:
-deploy: deploy-init deploy-always
+deploy: deploy-init deploy-always deploy-copyit
 
 deploy-init:
 	rm -fr $(DEPLOY_DIR)
@@ -33,6 +34,12 @@ deploy-always:
 		$(BUILD_DIR)/alwaysontop.min.js \
 		$(BUILD_DIR)/alwaysontop.min.map \
 		$(DEPLOY_DIR)
+
+deploy-copyit:
+	cp \
+		$(BUILD_DIR)/alwaysontop.min.js \
+		$(BUILD_DIR)/alwaysontop.min.map \
+		$(DEPLOY_DIR_GIT)
 
 deploy-appbundle:
 	cp \
