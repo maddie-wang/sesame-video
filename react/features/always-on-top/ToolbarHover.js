@@ -123,7 +123,10 @@ export default class ToolbarHover extends Component<*, State> {
      */
     render() {
         return (
-            <Toolbar className={this.state.visible ? "fadeIn" : "fadeOut"} />
+            <Toolbar
+                screenshare={this.props.screenshare}
+                className={this.state.visible ? "fadeIn" : "fadeOut"}
+            />
         );
     }
 }

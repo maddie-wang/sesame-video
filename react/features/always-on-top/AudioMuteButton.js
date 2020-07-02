@@ -4,6 +4,8 @@
 // in this environment (e.g. JitsiMeetJS or interfaceConfig)
 import AbstractAudioMuteButton from "../base/toolbox/components/AbstractAudioMuteButton";
 import type { Props } from "../base/toolbox/components/AbstractButton";
+import firebase from "firebase/app";
+import "firebase/database";
 
 const { api } = window.alwaysOnTop;
 
@@ -143,5 +145,13 @@ export default class AudioMuteButton extends AbstractAudioMuteButton<
     _setAudioMuted(audioMuted: boolean) {
         // eslint-disable-line no-unused-vars
         this.state.audioAvailable && api.executeCommand("toggleAudio");
+        let audioOn = !audioMuted;
+        console.log("audioOn", audioOn);
+        firebase
+            .database()
+            .ref(
+                `callID/${window.alwaysOnTop.callID}/${window.alwaysOnTop.uid}/audio`
+            )
+            .set(audioOn);
     }
 }

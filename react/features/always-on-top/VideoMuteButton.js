@@ -4,7 +4,8 @@
 // in this environment (e.g. JitsiMeetJS or interfaceConfig)
 import AbstractVideoMuteButton from "../base/toolbox/components/AbstractVideoMuteButton";
 import type { Props } from "../base/toolbox/components/AbstractButton";
-
+import firebase from "firebase/app";
+import "firebase/database";
 const { api } = window.alwaysOnTop;
 
 /**
@@ -118,12 +119,16 @@ export default class VideoMuteButton extends AbstractVideoMuteButton<
      */
     _setVideoMuted(videoMuted: boolean) {
         // eslint-disable-line no-unused-vars
-        let videoDisabled = videoMuted
-            ? "videoDisabled@poop.com"
-            : "videoOn@poop.com";
-        console.log("videoChange", videoDisabled);
-        api.executeCommand("email", videoDisabled);
+        let videoOn = !videoMuted;
+        console.log("videoChange", videoOn);
         this.state.videoAvailable && api.executeCommand("toggleVideo");
+
+        firebase
+            .database()
+            .ref(
+                `callID/${window.alwaysOnTop.callID}/${window.alwaysOnTop.uid}/video`
+            )
+            .set(videoOn);
     }
 
     _videoAvailabilityListener: ({ available: boolean }) => void;

@@ -4,7 +4,6 @@ import React, { Component } from "react";
 
 import { useDbDatum } from "./firebase-hook";
 import ParticipantScreen from "./ParticipantScreen";
-import firebase from "firebase/app";
 
 export default class Participants extends Component<*, State> {
     constructor(props: *) {
@@ -16,12 +15,6 @@ export default class Participants extends Component<*, State> {
         console.log("friendsInCall", friendsInCall);
         let screens = [];
         for (let u in friendsInCall) {
-            // If we have a cached copy of participants userobj data...
-            if (u === "buttsack") {
-                console.log("BYE");
-                continue;
-            }
-
             let screen = (
                 <ParticipantScreen
                     participantObj={friendsInCall[u]}

@@ -1,16 +1,15 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import AudioMuteButton from './AudioMuteButton';
-import HangupButton from './HangupButton';
-import VideoMuteButton from './VideoMuteButton';
+import AudioMuteButton from "./AudioMuteButton";
+import ShareScreenButton from "./ShareScreenButton";
+import VideoMuteButton from "./VideoMuteButton";
 
 /**
  * The type of the React {@code Component} props of {@link Toolbar}.
  */
 type Props = {
-
     /**
      * Additional CSS class names to add to the root of the toolbar.
      */
@@ -40,19 +39,16 @@ export default class Toolbar extends Component<Props> {
      * @returns {ReactElement}
      */
     render() {
-        const {
-            className = '',
-            onMouseOut,
-            onMouseOver
-        } = this.props;
+        const { className = "", onMouseOut, onMouseOver } = this.props;
 
         return (
             <div
-                className = { `always-on-top-toolbox ${className}` }
-                onMouseOut = { onMouseOut }
-                onMouseOver = { onMouseOver }>
+                className={`always-on-top-toolbox ${className}`}
+                onMouseOut={onMouseOut}
+                onMouseOver={onMouseOver}
+            >
                 <AudioMuteButton />
-                <HangupButton />
+                <ShareScreenButton screenshare={this.props.screenshare} />
                 <VideoMuteButton />
             </div>
         );
